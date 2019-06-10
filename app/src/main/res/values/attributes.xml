@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="colorView">
+        <attr name="circle_radius" format="dimension" />
+        <attr name="circle_image" format="reference" />
+        <attr name="backGround_image" format="reference" />
+    </declare-styleable>
+</resources>
