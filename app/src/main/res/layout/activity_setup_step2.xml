@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="2"
+    android:orientation="vertical" >
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/content_top"
+        android:background="@drawable/transparent">
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_marginStart="7.0dip"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/connect_list_bg"
+            android:layout_height="wrap_content">
+
+            <ListView
+                android:layout_gravity="bottom"
+                android:id="@+id/device_list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="45.0dip"  />
+            <View
+                android:layout_gravity="bottom"
+                android:background="@drawable/listview_bottom_mask"
+                android:visibility="gone"
+                android:layout_width="fill_parent"
+                android:layout_height="90.0dip"  />
+            <LinearLayout
+                android:gravity="center"
+                android:layout_gravity="bottom|center"
+                android:orientation="horizontal"
+                android:id="@+id/refresh_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="45.0dip">
+                <ProgressBar
+                    android:id="@+id/refresh_progress"
+                    android:layout_width="17.0dip"
+                    android:layout_height="17.0dip"
+                    android:indeterminateDrawable="@drawable/device_connect_connecting" />
+                <ImageView
+                    android:id="@+id/refresh_retry_img"
+                    android:visibility="gone"
+                    android:layout_width="17.0dip"
+                    android:layout_height="17.0dip"
+                    android:src="@drawable/icon_refresh_device" />
+                <TextView
+                    android:textSize="14.0sp"
+                    android:textColor="@color/textDescription_color"
+                    android:id="@+id/refresh_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7.0dip" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#fff"
+        android:orientation="vertical">
+
+        <TextView
+            android:textSize="19.0sp"
+            android:textColor="@android:color/tab_indicator_text"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:id="@id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22.0dip"
+            android:text="@string/select_device"
+            android:layout_marginStart="8.0dip"
+            android:layout_marginEnd="8.0dip" />
+        <TextView
+            android:textSize="12.0sp"
+            android:textColor="@android:color/tab_indicator_text"
+            android:textStyle="bold"
+            android:gravity="start"
+            android:id="@+id/sub_info"
+            android:paddingLeft="40.0dip"
+            android:paddingRight="40.0dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12.0dip"
+            android:lineSpacingMultiplier="1.4"
+            android:text="@string/not_on_the_list"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button android:textSize="15sp"
+                android:textColor="@color/colorWhite"
+                android:layout_gravity="bottom|center"
+                android:id="@+id/next"
+                android:background="@drawable/round_edges"
+                android:layout_width="wrap_content"
+                android:layout_height="39.0dip"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/colorAccent" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

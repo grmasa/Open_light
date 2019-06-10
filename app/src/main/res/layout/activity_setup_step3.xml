@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="2"
+    android:orientation="vertical" >
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#192832">
+        <ImageView
+            android:id="@+id/product_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/lamp_switch"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true" />
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#fff"
+        android:orientation="vertical">
+        <TextView
+            android:textSize="19.0sp"
+            android:textColor="@android:color/tab_indicator_text"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:id="@id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22.0dip"
+            android:text="@string/install_completed"
+            android:layout_marginStart="8.0dip"
+            android:layout_marginEnd="8.0dip" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button android:textSize="15sp"
+                android:textColor="@color/colorWhite"
+                android:layout_gravity="bottom|center"
+                android:id="@+id/next"
+                android:background="@drawable/round_edges"
+                android:layout_width="wrap_content"
+                android:layout_height="39.0dip"
+                android:text="@string/ok"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/colorAccent" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Open Light</string>
+    <string name="yeelight_app_url">https://lh3.googleusercontent.com/77-VjwzZYcedr03X7YJVileas5sllrpXNIIOP4PoqKaLf5n4Bg7c7XnsZq18yKAOhw=w300-rw</string>
+    <string name="do_not_show">Do not show again.</string>
+    <string name="install_open_yeelight">Install/Open Yeelight app</string>
+    <string name="dialog_instructions">1. You need a Yeelight smart bulb. \n2. Install official Yeelight app. \n3. Add your bulb to Yeelight app. (follow app instructions) \n4. Enable developer mode for your bulb in Yeelight app. (Open app -> Select bulb -> Bulb settings -> LAN Control -> Enable) \n5. Connect to same wifi with bulb and you are ready to go!</string>
+    <string name="text_device">Device</string>
+    <string name="text_room">Room</string>
+    <string name="settings">Settings</string>
+
+    <string name="open_parent_app">Open Yeelight app</string>
+    <string name="store_base_url">https://play.google.com/store/apps/details?id=</string>
+    <string name="parent_app_package">com.yeelight.cherry</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="add_device">Add Device</string>
+    <string name="install_device">Install your device</string>
+    <string name="install_instructions">1. Device is correctly powered;\n2. If developer options are not activated please install official application.</string>
+    <string name="next">Next</string>
+    <string name="add_device_rescan">Click to restart scan</string>
+    <string name="add_device_scanning">Scanning</string>
+    <string name="select_device">Select device to add</string>
+    <string name="not_on_the_list">If device is not on the list, please make sure you activated developer options.</string>
+    <string name="ok">OK</string>
+    <string name="install_completed">Installation Completed</string>
+
+    <string name="offline">Offline</string>
+    <string name="online">Online</string>
+    <string name="delete">Delete Bulb</string>
+
+    <string name="movie">Movie</string>
+    <string name="romance">Romance</string>
+    <string name="night">Night</string>
+    <string name="default_string">Default</string>
+
+    <string name="device_error">Device is offline, please check the following</string>
+    <string name="device_error_debug">1. Check if your device is powered\n 2. Check if Wifi is available \n 3. If the device changed it\'s IP address, click the refresh button \n 4. Remove your device from this application and reconnect it</string>
+</resources>
