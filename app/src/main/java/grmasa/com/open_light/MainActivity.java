@@ -1,10 +1,14 @@
 package grmasa.com.open_light;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -14,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -51,6 +56,32 @@ public class MainActivity extends AppCompatActivity {
         final Runnable dialog_view = this::help_dialog;
         Handler handler = new Handler();
         handler.postDelayed(dialog_view, 0);
+
+        final Runnable dialog_wifi = this::wifi_dialog;
+        Handler handler2 = new Handler();
+        handler2.postDelayed(dialog_wifi, 0);
+    }
+
+    protected void wifi_dialog() {
+        WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
+        if(!wifiManager.isWifiEnabled()){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setTitle("Attention");
+            alertDialogBuilder.setMessage(getResources().getString(R.string.wifi_warning)).setCancelable(false).setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            wifiManager.setWifiEnabled(true);
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.wifi_enabled),Toast.LENGTH_LONG).show();
+                        }
+                    })
+                    .setNegativeButton("Preferences",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                        }
+                    });
+
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
     }
 
     protected void help_dialog() {
