@@ -50,17 +50,17 @@ public class Color_fragment extends Fragment {
         try {
             device.setRGB(red,green,blue);
         } catch (YeelightResultErrorException | YeelightSocketException e) {
-            //reset device if client quota exceeded
-            if(e.getMessage().contains("client quota exceeded")){
-                System.out.println("pipa");
-                try {
-                    device = null;
-                    device = new YeelightDevice(bulb.getIp());
-                } catch (YeelightSocketException e1) {
-                    e1.printStackTrace();
-                }
-            }
             e.printStackTrace();
+            reset_limit();
+        }
+    }
+
+    private void reset_limit(){
+        device = null;
+        try {
+            device = new YeelightDevice(bulb.getIp());
+        } catch (YeelightSocketException e1) {
+            e1.printStackTrace();
         }
     }
 
