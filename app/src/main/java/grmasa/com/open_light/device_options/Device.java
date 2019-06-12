@@ -127,6 +127,7 @@ public class Device extends AppCompatActivity {
                 device.setBrightness(seekBar.getProgress());
             } catch (YeelightResultErrorException | YeelightSocketException e) {
                 e.printStackTrace();
+                reset_limit();
             }
         }
     };
@@ -137,5 +138,14 @@ public class Device extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    private void reset_limit(){
+        device = null;
+        try {
+            device = new YeelightDevice(bulb.getIp());
+        } catch (YeelightSocketException e1) {
+            e1.printStackTrace();
+        }
     }
 }
