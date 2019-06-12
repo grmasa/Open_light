@@ -123,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void open_yeelight_app(View v){
         Uri parentAppUri = Uri.parse(getString(R.string.store_base_url) + getString(R.string.parent_app_package));
-        getApplicationContext().startActivity(new Intent().setAction(Intent.ACTION_VIEW).setData(parentAppUri));
+        Intent intent = new Intent();
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(intent.setAction(Intent.ACTION_VIEW).setData(parentAppUri));
     }
 
 }
