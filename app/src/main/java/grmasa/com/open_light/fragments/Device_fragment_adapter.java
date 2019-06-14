@@ -1,11 +1,14 @@
 package grmasa.com.open_light.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -29,6 +32,10 @@ public class Device_fragment_adapter extends BaseAdapter implements ListAdapter 
     private ArrayList<Bulb> list;
     private Context context;
     private YeelightDevice device;
+    private TextView bulb_current_state, bulb_ip;
+    private int position;
+    private ImageView get_new_ip_btn, on_off;
+    private View finalView;
 
     Device_fragment_adapter(ArrayList<Bulb> list, Context context) {
         this.list = list;
@@ -52,6 +59,7 @@ public class Device_fragment_adapter extends BaseAdapter implements ListAdapter 
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        this.position = position;
         View view = convertView;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -59,14 +67,14 @@ public class Device_fragment_adapter extends BaseAdapter implements ListAdapter 
             view = inflater.inflate(R.layout.device_fragment_adapter_layout, null);
         }
 
-        TextView bulb_ip = view.findViewById(R.id.bulb_ip);
+        bulb_ip = view.findViewById(R.id.bulb_ip);
         TextView bulb_id = view.findViewById(R.id.bulb_id);
         bulb_id.setText( list.get(position).getDevice_id());
         bulb_ip.setText( list.get(position).getIp());
-        TextView bulb_current_state = view.findViewById(R.id.bulb_current_state);
+        bulb_current_state = view.findViewById(R.id.bulb_current_state);
 
-        ImageView on_off = view.findViewById(R.id.on_off);
-        ImageView get_new_ip_btn = view.findViewById(R.id.get_new_ip);
+        on_off = view.findViewById(R.id.on_off);
+        get_new_ip_btn = view.findViewById(R.id.get_new_ip);
 
         device = list.get(position).getDevice();
 
@@ -116,21 +124,33 @@ public class Device_fragment_adapter extends BaseAdapter implements ListAdapter 
                 notifyDataSetChanged();
             }
         });
-        View finalView = view;
+        finalView = view;
+
         get_new_ip_btn.setOnClickListener(v -> {
 
-            ProgressDialog mDialog = new ProgressDialog(context);
-            mDialog.setTitle("Loading");
-            mDialog.setMessage("Loading...");
-            mDialog.setCancelable(false);
-            mDialog.show();
+            RotateAnimation rotateAnimation = new RotateAnimation(0, 360f,Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF, 0.5f);
+            rotateAnimation.setInterpolator(new LinearInterpolator());
+            rotateAnimation.setDuration(500);
+            rotateAnimation.setRepeatCount(Animation.INFINITE);
+            get_new_ip_btn.startAnimation(rotateAnimation);
 
+            new AsyncTaskExample().execute();
+
+        });
+
+        return finalView;
+    }
+
+    private class AsyncTaskExample extends AsyncTask<Void, Void, Void> {
+        private String ip, id;
+
+        @Override
+        protected Void doInBackground(Void... voids){
             DatagramSocket dSocket;
             String message = "M-SEARCH * HTTP/1.1\r\n" + "HOST:239.255.255.250:1982\r\n" + "MAN:\"ssdp:discover\"\r\n" + "ST:wifi_bulb\r\n";
             String UDP_HOST = "239.255.255.250";
             int UDP_PORT = 1982;
             int timeout = 7000;
-            String ip, id;
             try {
                 dSocket = new DatagramSocket();
                 DatagramPacket dpSend = new DatagramPacket(message.getBytes(),message.getBytes().length, InetAddress.getByName(UDP_HOST), UDP_PORT);
@@ -169,6 +189,18 @@ public class Device_fragment_adapter extends BaseAdapter implements ListAdapter 
                 ip = ipPort.substring(0,ipPort.indexOf(":"));
                 id = bulbInfo.get("id");
 
+            } catch (Exception e) {
+                System.out.println("nigger");
+                System.out.println(e.toString());
+                e.printStackTrace();
+                get_new_ip_btn.clearAnimation();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void param){
+            try {
                 if(id.equals(list.get(position).getDevice_id())) {
                     Db db = new Db(context);
                     int rows = db.updateBulbIP(id, ip);
@@ -177,29 +209,24 @@ public class Device_fragment_adapter extends BaseAdapter implements ListAdapter 
                         list.get(position).setIP(ip);
                         bulb_ip.setText(list.get(position).getIp());
 
-                        device = list.get(position).getDevice();
-                        if (device != null) {
-                            bulb_current_state.setText(finalView.getResources().getString(R.string.online));
-                            bulb_current_state.setTextColor(Color.GREEN);
-                            if (device.getState().equals("off")) {
-                                device.setPower(true);
-                                on_off.setImageResource(R.drawable.icon_bulb_on);
-                            } else {
-                                device.setPower(false);
-                                on_off.setImageResource(R.drawable.icon_bulb_off);
-                            }
+                        device = new YeelightDevice(ip);
+                        bulb_current_state.setText(finalView.getResources().getString(R.string.online));
+                        bulb_current_state.setTextColor(Color.GREEN);
+                        if (device.getState().equals("off")) {
+                            on_off.setImageResource(R.drawable.icon_bulb_on);
+                        } else {
+                            on_off.setImageResource(R.drawable.icon_bulb_off);
                         }
                     }
                 }
 
                 notifyDataSetChanged();
+                get_new_ip_btn.clearAnimation();
             } catch (Exception e) {
+                get_new_ip_btn.clearAnimation();
                 e.printStackTrace();
             }
-
-            mDialog.dismiss();
-        });
-
-        return view;
+        }
     }
+
 }
