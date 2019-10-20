@@ -1,6 +1,10 @@
 package grmasa.com.open_light.fragments;
 
+import android.app.AlarmManager;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -10,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -20,6 +25,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import grmasa.com.open_light.MainActivity;
 import grmasa.com.open_light.R;
 import grmasa.com.open_light.YeelightDevice;
 import grmasa.com.open_light.db.Bulb;
@@ -33,6 +39,7 @@ public class Device_fragment_adapter extends BaseAdapter implements ListAdapter 
     private Context context;
     private YeelightDevice device;
     private TextView bulb_current_state, bulb_ip;
+    private AlertDialog bulb_ip_edit_alert;
     private int position;
     private ImageView get_new_ip_btn, on_off;
     private View finalView;
@@ -68,6 +75,40 @@ public class Device_fragment_adapter extends BaseAdapter implements ListAdapter 
         }
 
         bulb_ip = view.findViewById(R.id.bulb_ip);
+        final EditText bulb_ip_edit = new EditText(context);
+
+        bulb_ip_edit_alert = new AlertDialog.Builder(context).create();
+        bulb_ip_edit_alert.setTitle("Edit bulb IP");
+        bulb_ip_edit_alert.setView(bulb_ip_edit);
+
+        bulb_ip_edit_alert.setButton(AlertDialog.BUTTON_POSITIVE, "OK", (dialog, which) -> {
+            System.out.println("yolooo 6:"+bulb_ip_edit.getText());
+            System.out.println("yolooo 6:"+bulb_ip_edit.getText().toString());
+            list.get(position).setIp(bulb_ip_edit.getText().toString());
+            bulb_ip.setText(bulb_ip_edit.getText().toString());
+
+            Db db = new Db(context);
+            int rows = db.updateBulbIP(list.get(position).getDevice_id(), bulb_ip_edit.getText().toString());
+            System.out.println("New ip:" + bulb_ip_edit.getText().toString() + " id:" + list.get(position).getDevice_id());
+            if (rows > 0) {
+                list.get(position).setIP(bulb_ip_edit.getText().toString());
+                bulb_ip.setText(list.get(position).getIp());
+
+                Intent restart_activity = new Intent(context, MainActivity.class);
+                PendingIntent pending_intent = PendingIntent.getActivity(context, 123456,    restart_activity, PendingIntent.FLAG_CANCEL_CURRENT);
+                AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+                mgr.set(AlarmManager.RTC, System.currentTimeMillis(), pending_intent);
+                System.exit(0);
+            }
+            bulb_ip_edit_alert.dismiss();
+
+        });
+
+        bulb_ip.setOnClickListener(v -> {
+            bulb_ip_edit.setText(bulb_ip.getText());
+            bulb_ip_edit_alert.show();
+        });
+
         TextView bulb_id = view.findViewById(R.id.bulb_id);
         bulb_id.setText( list.get(position).getDevice_id());
         bulb_ip.setText( list.get(position).getIp());
@@ -140,6 +181,7 @@ public class Device_fragment_adapter extends BaseAdapter implements ListAdapter 
 
         return finalView;
     }
+
 
     private class AsyncTaskExample extends AsyncTask<Void, Void, Void> {
         private String ip, id;
