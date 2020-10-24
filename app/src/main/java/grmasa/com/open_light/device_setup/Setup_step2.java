@@ -2,7 +2,9 @@ package grmasa.com.open_light.device_setup;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -23,6 +25,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import grmasa.com.open_light.db.Bulb;
 import grmasa.com.open_light.db.Db;
 
 import grmasa.com.open_light.R;
@@ -40,6 +43,7 @@ public class Setup_step2 extends AppCompatActivity {
     private static final int UDP_PORT = 1982;
     private static int timeout = 7000;
     private Db db;
+    private ArrayList<Bulb> bulb_ar;
 
     private String id;
     private String fw;
@@ -51,6 +55,10 @@ public class Setup_step2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        db = new Db(this);
+        bulb_ar = db.getAllBulbs();
+
         setContentView(R.layout.activity_setup_step2);
 
         refresh_text = findViewById(R.id.refresh_text);
@@ -67,8 +75,7 @@ public class Setup_step2 extends AppCompatActivity {
         scan_device_update_ui();
 
         add_device_button.setOnClickListener(v -> {
-            db = new Db(this);
-            db.insertBulb(id,ip,fw,port,support,name);
+            db.insertBulb(id, ip, fw, port, support, name);
             Intent myIntent = new Intent(getApplicationContext(), Setup_step3.class);
             startActivity(myIntent);
             finish();
@@ -87,14 +94,14 @@ public class Setup_step2 extends AppCompatActivity {
         refresh_text.setText(R.string.add_device_rescan);
     }
 
-    public void scan_device(){
+    public void scan_device() {
         DatagramSocket datagramSocket;
         ArrayList<String> devices = new ArrayList<>();
         try {
             datagramSocket = new DatagramSocket();
-            DatagramPacket dpSend = new DatagramPacket(message.getBytes(),message.getBytes().length, InetAddress.getByName(UDP_HOST), UDP_PORT);
+            DatagramPacket dpSend = new DatagramPacket(message.getBytes(), message.getBytes().length, InetAddress.getByName(UDP_HOST), UDP_PORT);
             datagramSocket.send(dpSend);
-            while(true) {
+            while (true) {
                 byte[] buff = new byte[1024];
                 DatagramPacket dpRecv = new DatagramPacket(buff, buff.length);
                 datagramSocket.setSoTimeout(timeout);
@@ -111,6 +118,7 @@ public class Setup_step2 extends AppCompatActivity {
                 if (!buffer.toString().contains("yeelight")) {
                     throw new UnknownHostException("Device not found");
                 }
+                //System.out.println(buffer.toString());
                 String[] infos = buffer.toString().split("\n");
                 HashMap<String, String> bulbInfo = new HashMap<>();
                 for (String str : infos) {
@@ -127,28 +135,40 @@ public class Setup_step2 extends AppCompatActivity {
                 assert location != null;
                 String ipPort = location.substring(location.lastIndexOf("/") + 1);
                 ip = ipPort.substring(0, ipPort.indexOf(":"));
-                port = ipPort.substring(ipPort.indexOf(":") + 1, ipPort.length());
+                port = ipPort.substring(ipPort.indexOf(":") + 1);
                 support = bulbInfo.get("support");
                 fw = bulbInfo.get("fw_ver");
                 id = bulbInfo.get("id");
                 name = bulbInfo.get("name");
-                if(!devices.contains(ip+":"+port)) {
-                    devices.add(ip + ":" + port);
+                boolean exists = false;
+                if (!devices.contains(ip + ":" + port)) {
+                    //Check if bulb is already added by the user
+                    if (bulb_ar.size() > 0) {
+                        for (Bulb bulb : bulb_ar) {
+                            if(bulb.getDevice_id().equals(id)){
+                                exists = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!exists) {
+                        devices.add(ip + ":" + port);
+                    }
                 }
             }
-        } catch (SocketTimeoutException | UnknownHostException ignored) {
-            ignored.printStackTrace();
+        } catch (SocketTimeoutException | UnknownHostException e) {
+            e.printStackTrace();
             reset_ui_scan_again();
-            timeout=timeout+5000;
+            timeout = timeout + 5000;
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             //display device list to user
             update_listview(devices.parallelStream().toArray(String[]::new));
         }
     }
 
-    private void reset_ui_scan_again(){
+    private void reset_ui_scan_again() {
         runOnUiThread(() -> {
             refresh_retry_img.setVisibility(View.VISIBLE);
             refresh_progress.setVisibility(View.GONE);
@@ -156,7 +176,7 @@ public class Setup_step2 extends AppCompatActivity {
         });
     }
 
-    private void update_listview(String[] devices){
+    private void update_listview(String[] devices) {
         runOnUiThread(() -> {
             reset_ui_scan_again();
             lv.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, devices));
@@ -173,7 +193,7 @@ public class Setup_step2 extends AppCompatActivity {
         });
     }
 
-    private void scan_device_update_ui(){
+    private void scan_device_update_ui() {
         runOnUiThread(() -> {
             runOnUiThread(() -> {
                 add_device_button.setAlpha(.5f);
