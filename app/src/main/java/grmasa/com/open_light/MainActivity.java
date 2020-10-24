@@ -1,11 +1,11 @@
 package grmasa.com.open_light;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.Settings;
@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
+
+    private AlertDialog alertDialog = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,25 +64,36 @@ public class MainActivity extends AppCompatActivity {
         handler2.postDelayed(dialog_wifi, 0);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        final Runnable dialog_wifi = this::wifi_dialog;
+        Handler handler2 = new Handler();
+        handler2.postDelayed(dialog_wifi, 0);
+    }
+
     protected void wifi_dialog() {
         WifiManager wifiManager = (WifiManager) this.getSystemService(Context.WIFI_SERVICE);
-        if(!wifiManager.isWifiEnabled()){
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-            alertDialogBuilder.setTitle("Attention");
-            alertDialogBuilder.setMessage(getResources().getString(R.string.wifi_warning)).setCancelable(false).setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,int id) {
-                            wifiManager.setWifiEnabled(true);
-                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.wifi_enabled),Toast.LENGTH_LONG).show();
-                        }
-                    })
-                    .setNegativeButton("Preferences",new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog,int id) {
-                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                        }
-                    });
-
-            AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+        if(!(wifiManager != null && wifiManager.isWifiEnabled()) && alertDialog == null){
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setTitle("Attention");
+                alertDialogBuilder.setMessage(getResources().getString(R.string.wifi_warning)).setCancelable(false).setPositiveButton("Yes", (dialog, id) -> {
+                    assert wifiManager != null;
+                    wifiManager.setWifiEnabled(true);
+                    alertDialog = null;
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.wifi_enabled), Toast.LENGTH_LONG).show();
+                })
+                        .setNegativeButton("Preferences", (dialog, id) -> startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS)));
+                alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }else{
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.setTitle("Attention");
+                alertDialogBuilder.setMessage(getResources().getString(R.string.wifi_warning)).setCancelable(false).setPositiveButton("Preferences", (dialog, id) -> startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS)));
+                alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
         }
     }
 
@@ -113,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
         });
 
-        assert skip != null;
         if (!skip.equals("checked")) {
             alertDialog.show();
         }
