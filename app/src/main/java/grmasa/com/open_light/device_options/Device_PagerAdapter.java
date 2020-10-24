@@ -1,9 +1,9 @@
 package grmasa.com.open_light.device_options;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import grmasa.com.open_light.db.Bulb;
 import grmasa.com.open_light.device_options.fragments.Color_fragment;

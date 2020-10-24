@@ -15,7 +15,7 @@
         android:adjustViewBounds="true"
         tools:ignore="ContentDescription" />
 
-    <android.support.v7.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/add_device_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         android:textColor="@color/colorWhite"
         app:backgroundTint="@color/colorAccent"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/refresh"
         android:layout_gravity="bottom"
         android:layout_width="match_parent"
@@ -36,5 +36,5 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginBottom="45.0dip"  />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

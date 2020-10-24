@@ -1,7 +1,7 @@
 package grmasa.com.open_light.device_options;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import java.util.Objects;

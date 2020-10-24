@@ -1,8 +1,8 @@
 package grmasa.com.open_light;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import grmasa.com.open_light.fragments.Device_Fragment;
 import grmasa.com.open_light.fragments.Room_Fragment;
