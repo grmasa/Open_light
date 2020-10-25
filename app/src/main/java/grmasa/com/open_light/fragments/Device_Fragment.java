@@ -19,7 +19,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import grmasa.com.open_light.ObjectWrapperForBinder;
+import grmasa.com.open_light.BulbObjectWrapperForBinder;
 import grmasa.com.open_light.R;
 import grmasa.com.open_light.db.Bulb;
 import grmasa.com.open_light.db.Db;
@@ -47,7 +47,6 @@ public class Device_Fragment extends Fragment  {
         Db db = new Db(getContext());
         bulb_ar = db.getAllBulbs();
         if(bulb_ar.size()>0) {
-            //System.out.println(bulb_ar.get(0).getDevice_id());
             ImageView lamp_img = view.findViewById(R.id.lamp_img);
             lamp_img.setVisibility(View.GONE);
             add_device_button.setVisibility(View.GONE);
@@ -79,7 +78,7 @@ public class Device_Fragment extends Fragment  {
             Bulb b = (Bulb)obj;
 
             final Bundle bundle = new Bundle();
-            bundle.putBinder("bulb_v", new ObjectWrapperForBinder(b));
+            bundle.putBinder("bulb_v", new BulbObjectWrapperForBinder(b));
             startActivity(new Intent(getContext(), Device.class).putExtras(bundle));
         });
     }

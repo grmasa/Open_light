@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="2"
+    android:orientation="vertical" >
+    <TextView
+        android:textSize="19.0sp"
+        android:textColor="@android:color/tab_indicator_text"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:id="@id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22.0dip"
+        android:text="@string/select_device"
+        android:layout_marginStart="8.0dip"
+        android:layout_marginEnd="1.0dip" />
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/content_top"
+        android:background="@drawable/transparent">
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_marginStart="1.0dip"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:background="@drawable/connect_list_bg"
+            android:layout_height="wrap_content">
+
+            <ListView
+                android:layout_gravity="bottom"
+                android:id="@+id/added_device_list"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="45.0dip"  />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#fff"
+        android:orientation="vertical">
+
+            <Button android:textSize="15sp"
+                android:textColor="@color/colorWhite"
+                android:layout_gravity="bottom|center"
+                android:id="@+id/done"
+                android:background="@drawable/round_edges"
+                android:layout_width="wrap_content"
+                android:layout_height="39.0dip"
+                android:text="@string/done"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/colorAccent" />
+    </LinearLayout>
+
+</LinearLayout>

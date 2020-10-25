@@ -29,6 +29,8 @@
         <activity android:label="@string/app_name" android:name=".device_setup.Setup_step3" />
         <activity android:label="@string/app_name" android:name=".device_options.Device" />
         <activity android:label="@string/app_name" android:name=".device_options.Device_error" />
+        <activity android:label="@string/app_name" android:name=".room_options.setup.Room_Setup_Step1" />
+        <activity android:label="@string/app_name" android:name=".room_options.setup.Room_Setup_Step2" />
     </application>
 
 </manifest>

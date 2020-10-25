@@ -14,7 +14,7 @@ import android.widget.SeekBar;
 import java.util.Objects;
 
 import grmasa.com.open_light.MainActivity;
-import grmasa.com.open_light.ObjectWrapperForBinder;
+import grmasa.com.open_light.BulbObjectWrapperForBinder;
 import grmasa.com.open_light.R;
 import grmasa.com.open_light.YeelightDevice;
 import grmasa.com.open_light.db.Bulb;
@@ -35,7 +35,7 @@ public class Device extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         //get bulb object
-        bulb = ((ObjectWrapperForBinder) Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).getBinder("bulb_v"))).getData();
+        bulb = ((BulbObjectWrapperForBinder) Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).getBinder("bulb_v"))).getData();
 
         SeekBar brightness_bar = findViewById(R.id.brightness_bar);
         brightness_bar.setOnSeekBarChangeListener(seekBarChangeListener);

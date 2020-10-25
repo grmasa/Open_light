@@ -27,6 +27,10 @@
     <string name="ok">OK</string>
     <string name="install_completed">Installation Completed</string>
 
+    <string name="add_room">Add Room</string>
+    <string name="create_name">Create Name</string>
+    <string name="done">Done</string>
+
     <string name="offline">Offline</string>
     <string name="online">Online</string>
     <string name="delete">Delete Bulb</string>

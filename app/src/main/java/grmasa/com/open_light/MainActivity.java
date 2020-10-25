@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         TabLayout tabLayout = findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("Device").setIcon(R.drawable.baseline_highlight_black_18dp));
+        tabLayout.addTab(tabLayout.newTab().setText("Devices").setIcon(R.drawable.baseline_highlight_black_18dp));
         tabLayout.addTab(tabLayout.newTab().setText("Room").setIcon(R.drawable.ic_home_black_24dp));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         final ViewPager viewPager = findViewById(R.id.pager);

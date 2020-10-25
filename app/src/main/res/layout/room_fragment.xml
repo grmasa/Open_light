@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
-        android:id="@+id/lamp_img"
+        android:id="@+id/room_img"
         android:layout_width="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
         android:paddingTop="40dp"
@@ -16,25 +16,20 @@
         tools:ignore="ContentDescription" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/add_device_button"
+        android:id="@+id/add_room_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:text="Soon"
+        android:text="@string/add_room"
         android:background="@drawable/round_edges"
         android:textColor="@color/colorWhite"
         app:backgroundTint="@color/colorAccent"/>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/refresh"
+    <ListView
+        android:id="@+id/room_list"
         android:layout_gravity="bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ListView
-            android:id="@+id/device_list"
-            android:layout_gravity="bottom"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginBottom="45.0dip"  />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="45.0dip"  />
+
 </LinearLayout>
