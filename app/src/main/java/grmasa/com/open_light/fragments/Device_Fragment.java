@@ -46,6 +46,7 @@ public class Device_Fragment extends Fragment  {
 
         Db db = new Db(getContext());
         bulb_ar = db.getAllBulbs();
+        db.close();
         if(bulb_ar.size()>0) {
             ImageView lamp_img = view.findViewById(R.id.lamp_img);
             lamp_img.setVisibility(View.GONE);

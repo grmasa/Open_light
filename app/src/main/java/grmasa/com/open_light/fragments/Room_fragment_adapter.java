@@ -136,32 +136,36 @@ public class Room_fragment_adapter extends BaseAdapter implements ListAdapter {
         on_off.setOnClickListener(v -> {
             int bulbs_unknown_num_temp =0, bulbs_closed_num_temp = 0, bulbs_open_num_temp = 0;
             for ( Bulb b : array_list) {
-                device = b.getDevice();
                 try {
-                    if(device==null) {
-                        device = new YeelightDevice(b.getIp());
-                        b.setDevice(device);
-                    }
-                    if(device.getState().equals("off")){
-                        device.setPower(true);
-                        bulbs_closed_num_temp++;
-                    }else{
-                        device.setPower(false);
-                        bulbs_open_num_temp++;
-                    }
-
-                } catch (YeelightSocketException | YeelightResultErrorException e) {
-                    if(Objects.requireNonNull(e.getMessage()).contains("Broken pipe")){
-                        try {
-                            device = null;
+                    device = b.getDevice();
+                    try {
+                        if (device == null) {
                             device = new YeelightDevice(b.getIp());
                             b.setDevice(device);
-                        } catch (YeelightSocketException e1) {
-                            e1.printStackTrace();
                         }
+                        if (device.getState().equals("off")) {
+                            device.setPower(true);
+                            bulbs_closed_num_temp++;
+                        } else {
+                            device.setPower(false);
+                            bulbs_open_num_temp++;
+                        }
+
+                    } catch (YeelightSocketException | YeelightResultErrorException e) {
+                        if (Objects.requireNonNull(e.getMessage()).contains("Broken pipe")) {
+                            try {
+                                device = null;
+                                device = new YeelightDevice(b.getIp());
+                                b.setDevice(device);
+                            } catch (YeelightSocketException e1) {
+                                e1.printStackTrace();
+                            }
+                        }
+                        e.printStackTrace();
+                        bulbs_unknown_num_temp++;
                     }
-                    e.printStackTrace();
-                    bulbs_unknown_num_temp++;
+                }catch(NullPointerException ignored){
+
                 }
             }
             bulbs_open.setText(String.valueOf(bulbs_open_num_temp));

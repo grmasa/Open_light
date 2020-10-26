@@ -70,7 +70,7 @@ public class Room_Fragment extends Fragment {
             return;
         }
 
-       Room_fragment_adapter adapter = new Room_fragment_adapter(Room_ar, getContext());
+        Room_fragment_adapter adapter = new Room_fragment_adapter(Room_ar, getContext());
         lView = view.findViewById(R.id.room_list);
         lView.setAdapter(adapter);
         lView.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {

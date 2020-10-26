@@ -36,14 +36,18 @@ public class Color_fragment extends Fragment {
             assert room != null;
             bulbs = room.getBulbList();
             for (int i = 0; i < bulbs.size(); i++) {
-                YeelightDevice device = bulbs.get(i).getDevice();
                 try {
-                    if (device == null) {
-                        device = new YeelightDevice(bulbs.get(i).getIp());
-                        bulbs.get(i).setDevice(device);
+                    YeelightDevice device = bulbs.get(i).getDevice();
+                    try {
+                        if (device == null) {
+                            device = new YeelightDevice(bulbs.get(i).getIp());
+                            bulbs.get(i).setDevice(device);
+                        }
+                    } catch (YeelightSocketException e) {
+                        e.printStackTrace();
                     }
-                } catch (YeelightSocketException e) {
-                    e.printStackTrace();
+                }catch(NullPointerException ignored){
+
                 }
             }
         }
