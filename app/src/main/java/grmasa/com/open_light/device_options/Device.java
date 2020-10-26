@@ -80,6 +80,7 @@ public class Device extends AppCompatActivity {
             mDialog.show();
             Db db = new Db(context);
             db.deleteBulb(bulb.getDevice_id());
+            db.deleteBulbFromRoom(bulb.getDevice_id());
             db.close();
 
             Intent intent = new Intent(context, MainActivity.class);

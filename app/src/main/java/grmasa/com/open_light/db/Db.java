@@ -75,6 +75,11 @@ public class Db extends SQLiteOpenHelper {
         db.delete(bulbsInRoom_TABLE_NAME, bulbsInRoom_COLUMN_ROOMNAME + " = ? ", new String[]{name});
     }
 
+    public void deleteBulbFromRoom(String device_id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(bulbsInRoom_TABLE_NAME, bulbsInRoom_COLUMN_BULBID + " = ? ", new String[]{device_id});
+    }
+
     public void changeBulbsInRoomName(String name, String oldName) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
