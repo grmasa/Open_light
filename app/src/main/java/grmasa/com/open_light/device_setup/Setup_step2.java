@@ -44,13 +44,9 @@ public class Setup_step2 extends AppCompatActivity {
     private static int timeout = 7000;
     private Db db;
     private ArrayList<Bulb> bulb_ar;
+    private ArrayList<Bulb> newBulbs;
 
-    private String id;
-    private String fw;
-    private String support;
-    private String port;
-    private String ip;
-    private String name;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +54,7 @@ public class Setup_step2 extends AppCompatActivity {
 
         db = new Db(this);
         bulb_ar = db.getAllBulbs();
+        newBulbs = new ArrayList<>();
 
         setContentView(R.layout.activity_setup_step2);
 
@@ -75,7 +72,9 @@ public class Setup_step2 extends AppCompatActivity {
         scan_device_update_ui();
 
         add_device_button.setOnClickListener(v -> {
-            db.insertBulb(id, ip, fw, port, support, name);
+            db.insertBulb(newBulbs.get(position).getDevice_id(), newBulbs.get(position).getIp(),
+                    newBulbs.get(position).getFW(), newBulbs.get(position).getPort(),
+                    newBulbs.get(position).getSupport(), newBulbs.get(position).getName());
             Intent myIntent = new Intent(getApplicationContext(), Setup_step3.class);
             startActivity(myIntent);
             finish();
@@ -134,18 +133,18 @@ public class Setup_step2 extends AppCompatActivity {
                 String location = bulbInfo.get("Location");
                 assert location != null;
                 String ipPort = location.substring(location.lastIndexOf("/") + 1);
-                ip = ipPort.substring(0, ipPort.indexOf(":"));
-                port = ipPort.substring(ipPort.indexOf(":") + 1);
-                support = bulbInfo.get("support");
-                fw = bulbInfo.get("fw_ver");
-                id = bulbInfo.get("id");
-                name = bulbInfo.get("name");
+                String ip = ipPort.substring(0, ipPort.indexOf(":"));
+                String port = ipPort.substring(ipPort.indexOf(":") + 1);
+                String support = bulbInfo.get("support");
+                String fw = bulbInfo.get("fw_ver");
+                String id = bulbInfo.get("id");
+                String name = bulbInfo.get("name");
                 boolean exists = false;
                 if (!devices.contains(ip + ":" + port)) {
                     //Check if bulb is already added by the user
                     if (bulb_ar.size() > 0) {
                         for (Bulb bulb : bulb_ar) {
-                            if(bulb.getDevice_id().equals(id)){
+                            if (bulb.getDevice_id().equals(id)) {
                                 exists = true;
                                 break;
                             }
@@ -153,6 +152,7 @@ public class Setup_step2 extends AppCompatActivity {
                     }
                     if (!exists) {
                         devices.add(ip + ":" + port);
+                        newBulbs.add(new Bulb(ip, name, id, port, fw, support));
                     }
                 }
             }
@@ -182,6 +182,7 @@ public class Setup_step2 extends AppCompatActivity {
             lv.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, devices));
             lv.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
                 ListView lv1 = (ListView) arg0;
+                position = arg2;
                 TextView tv = (TextView) lv1.getChildAt(arg2);
                 String s1 = tv.getText().toString();
                 Toast.makeText(this, s1, Toast.LENGTH_LONG).show();

@@ -14,7 +14,7 @@ public class Bulb implements Parcelable {
     private String support;
     private YeelightDevice device;
 
-    Bulb(String ip, String name, String device_id, String port, String fw, String support)    {
+    public Bulb(String ip, String name, String device_id, String port, String fw, String support)    {
         this.ip = ip;
         this.name = name;
         this.device_id = device_id;
