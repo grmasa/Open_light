@@ -25,7 +25,7 @@ import grmasa.com.open_light.R;
 import grmasa.com.open_light.RoomObjectWrapperForBinder;
 import grmasa.com.open_light.db.Room;
 import grmasa.com.open_light.db.Db;
-import grmasa.com.open_light.device_options.Device;
+import grmasa.com.open_light.room_options.Device;
 import grmasa.com.open_light.room_options.setup.Room_Setup_Step1;
 
 public class Room_Fragment extends Fragment {
@@ -74,12 +74,12 @@ public class Room_Fragment extends Fragment {
         lView = view.findViewById(R.id.room_list);
         lView.setAdapter(adapter);
         lView.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
-            /*Object obj = lView.getItemAtPosition(arg2);
+            Object obj = lView.getItemAtPosition(arg2);
             Room r = (Room) obj;
             System.out.println(r.getBulbList().get(0).getDevice_id());
             final Bundle bundle = new Bundle();
             bundle.putBinder("bulb_v", new RoomObjectWrapperForBinder(r));
-            startActivity(new Intent(getContext(), Device.class).putExtras(bundle));*/
+            startActivity(new Intent(getContext(), Device.class).putExtras(bundle));
         });
     }
 

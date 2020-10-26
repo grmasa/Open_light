@@ -30,6 +30,7 @@
     <string name="add_room">Add Room</string>
     <string name="create_name">Create Name</string>
     <string name="done">Done</string>
+    <string name="delete_room">Delete Room</string>
 
     <string name="offline">Offline</string>
     <string name="online">Online</string>
