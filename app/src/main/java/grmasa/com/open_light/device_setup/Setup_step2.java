@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -168,6 +171,22 @@ public class Setup_step2 extends AppCompatActivity {
         }
     }
 
+    public static void setListViewHeight(ListView lv, List<Bulb> stringBulbList) {
+        ListAdapter listAdapter = lv.getAdapter();
+        int totalHeight = lv.getPaddingTop() + lv.getPaddingBottom() + 200;
+        for (int i = 0; i < (Math.min(stringBulbList.size(), 5)); i++) {
+            View listItem = listAdapter.getView(i, null, lv);
+            if (listItem instanceof ViewGroup) {
+                listItem.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            }
+            listItem.measure(0, 0);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = lv.getLayoutParams();
+        params.height = totalHeight + (lv.getDividerHeight() * (listAdapter.getCount() - 1));
+        lv.setLayoutParams(params);
+    }
+
     private void reset_ui_scan_again() {
         runOnUiThread(() -> {
             refresh_retry_img.setVisibility(View.VISIBLE);
@@ -191,6 +210,7 @@ public class Setup_step2 extends AppCompatActivity {
             });
             lv.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, devices));
             lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            setListViewHeight(lv, newBulbs);
         });
     }
 
