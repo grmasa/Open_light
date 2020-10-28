@@ -40,6 +40,8 @@ public class Device extends AppCompatActivity {
 
         //get bulb object
         room = ((RoomObjectWrapperForBinder) Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).getBinder("bulb_v"))).getData();
+        //get dialog
+        ProgressDialog dialog = ((RoomObjectWrapperForBinder) Objects.requireNonNull(Objects.requireNonNull(getIntent().getExtras()).getBinder("dialog"))).getDataDialog();
 
         SeekBar brightness_bar = findViewById(R.id.brightness_bar);
         brightness_bar.setOnSeekBarChangeListener(seekBarChangeListener);
@@ -67,12 +69,7 @@ public class Device extends AppCompatActivity {
                 finish();
                 e.printStackTrace();
             }
-        } else {
-            //if bulb variable is null
-            Intent myIntent = new Intent(getApplicationContext(), Device_error.class);
-            startActivity(myIntent);
-            finish();
-        }
+        } 
         Context context = Device.this;
 
         Button deleteBtn = findViewById(R.id.delete_btn);
@@ -115,7 +112,7 @@ public class Device extends AppCompatActivity {
 
         });
 
-
+        dialog.hide();
     }
 
     SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {

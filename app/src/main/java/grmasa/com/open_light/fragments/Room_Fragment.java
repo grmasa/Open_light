@@ -1,6 +1,7 @@
 package grmasa.com.open_light.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -74,10 +75,15 @@ public class Room_Fragment extends Fragment {
         lView = view.findViewById(R.id.room_list);
         lView.setAdapter(adapter);
         lView.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
+            ProgressDialog mDialog = new ProgressDialog(getContext());
+            mDialog.setMessage("Loading...");
+            mDialog.setCancelable(false);
+            mDialog.show();
             Object obj = lView.getItemAtPosition(arg2);
             Room r = (Room) obj;
             final Bundle bundle = new Bundle();
             bundle.putBinder("bulb_v", new RoomObjectWrapperForBinder(r));
+            bundle.putBinder("dialog", new RoomObjectWrapperForBinder(mDialog));
             startActivity(new Intent(getContext(), Device.class).putExtras(bundle));
         });
     }
