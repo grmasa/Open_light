@@ -2,6 +2,7 @@ package grmasa.com.open_light.fragments;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import grmasa.com.open_light.YeelightDevice;
 import grmasa.com.open_light.db.Bulb;
 import grmasa.com.open_light.db.Room;
 import grmasa.com.open_light.db.Db;
+import grmasa.com.open_light.room_options.edit.Room_edit;
 import grmasa.com.open_light.yapi.exception.YeelightResultErrorException;
 import grmasa.com.open_light.yapi.exception.YeelightSocketException;
 
@@ -81,6 +83,14 @@ public class Room_fragment_adapter extends BaseAdapter implements ListAdapter {
         room_name.setOnClickListener(v -> {
             room_name_edit.setText(room_name.getText());
             room_name_edit_alert.show();
+        });
+
+        ImageView room_edit_button = view.findViewById(R.id.edit_button);
+
+        room_edit_button.setOnClickListener(v -> {
+            Intent intent = new Intent(context, Room_edit.class);
+            intent.putExtra("ROOM_NAME", room_name.getText().toString());
+            context.startActivity(intent);
         });
 
         TextView room_name = view.findViewById(R.id.room_name);

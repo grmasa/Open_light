@@ -76,7 +76,6 @@ public class Room_Fragment extends Fragment {
         lView.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
             Object obj = lView.getItemAtPosition(arg2);
             Room r = (Room) obj;
-            System.out.println(r.getBulbList().get(0).getDevice_id());
             final Bundle bundle = new Bundle();
             bundle.putBinder("bulb_v", new RoomObjectWrapperForBinder(r));
             startActivity(new Intent(getContext(), Device.class).putExtras(bundle));

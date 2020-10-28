@@ -71,6 +71,9 @@ public class YeelightSocketHolder {
     public void send(String datas) throws YeelightSocketException {
         try {
             Log.v("ff1", "{"+datas+"} sent to {"+this.ip+"}:{"+this.port+"}");
+            if (datas == null){
+                throw new YeelightSocketException(new Throwable());
+            }
             this.socketWriter.write(datas);
             this.socketWriter.flush();
         } catch (Exception e) {
@@ -87,6 +90,9 @@ public class YeelightSocketHolder {
         try {
             String datas = this.socketReader.readLine();
             Log.v("ff", "{"+datas+"} sent to {"+this.ip+"}:{"+this.port+"}");
+            if (datas == null){
+                throw new YeelightSocketException(new Throwable());
+            }
             return datas;
         } catch (Exception e) {
             throw new YeelightSocketException(e);

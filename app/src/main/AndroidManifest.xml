@@ -33,6 +33,7 @@
         <activity android:label="@string/app_name" android:name=".room_options.setup.Room_Setup_Step2" />
         <activity android:label="@string/app_name" android:name=".room_options.Device" />
         <activity android:label="@string/app_name" android:name=".room_options.Device_error" />
+        <activity android:label="@string/app_name" android:name=".room_options.edit.Room_edit" />
     </application>
 
 </manifest>
