@@ -64,12 +64,9 @@ public class Device extends AppCompatActivity {
                     }
                 }
                 //if device is offline
-                Intent myIntent = new Intent(getApplicationContext(), Device_error.class);
-                startActivity(myIntent);
-                finish();
                 e.printStackTrace();
             }
-        } 
+        }
         Context context = Device.this;
 
         Button deleteBtn = findViewById(R.id.delete_btn);
@@ -111,7 +108,6 @@ public class Device extends AppCompatActivity {
             }
 
         });
-
         dialog.hide();
     }
 

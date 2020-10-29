@@ -1,6 +1,7 @@
 package grmasa.com.open_light.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -21,9 +22,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+import grmasa.com.open_light.MainActivity;
 import grmasa.com.open_light.R;
 import grmasa.com.open_light.RoomObjectWrapperForBinder;
+import grmasa.com.open_light.db.Bulb;
 import grmasa.com.open_light.db.Room;
 import grmasa.com.open_light.db.Db;
 import grmasa.com.open_light.room_options.Device;
@@ -85,6 +89,28 @@ public class Room_Fragment extends Fragment {
             bundle.putBinder("bulb_v", new RoomObjectWrapperForBinder(r));
             bundle.putBinder("dialog", new RoomObjectWrapperForBinder(mDialog));
             startActivity(new Intent(getContext(), Device.class).putExtras(bundle));
+        });
+        lView.setOnItemLongClickListener((arg0, arg1, pos, id) -> {
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Delete Device")
+                    .setMessage("Do you really want to delete this Room?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                        Room temp = (Room) lView.getItemAtPosition(pos);
+                        ProgressDialog mDialog = new ProgressDialog(getContext());
+                        mDialog.setMessage("Loading...");
+                        mDialog.setCancelable(false);
+                        mDialog.show();
+                        Db db = new Db(getContext());
+                        db.deleteRoom(temp.getName());
+                        db.close();
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mDialog.dismiss();
+                        Objects.requireNonNull(getContext()).startActivity(intent);
+                    })
+                    .setNegativeButton(android.R.string.no, null).show();
+            return true;
         });
     }
 

@@ -1,12 +1,16 @@
 package grmasa.com.open_light.fragments;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,15 +22,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import grmasa.com.open_light.BulbObjectWrapperForBinder;
+import grmasa.com.open_light.MainActivity;
 import grmasa.com.open_light.R;
 import grmasa.com.open_light.db.Bulb;
 import grmasa.com.open_light.db.Db;
 import grmasa.com.open_light.device_options.Device;
 import grmasa.com.open_light.device_setup.Setup_step1;
 
-public class Device_Fragment extends Fragment  {
+public class Device_Fragment extends Fragment {
 
     private ListView lView;
     private ArrayList<Bulb> bulb_ar;
@@ -47,12 +53,12 @@ public class Device_Fragment extends Fragment  {
         Db db = new Db(getContext());
         bulb_ar = db.getAllBulbs();
         db.close();
-        if(bulb_ar.size()>0) {
+        if (bulb_ar.size() > 0) {
             ImageView lamp_img = view.findViewById(R.id.lamp_img);
             lamp_img.setVisibility(View.GONE);
             add_device_button.setVisibility(View.GONE);
             new update_ui().execute("");
-        }else{
+        } else {
             ImageView lamp_img = view.findViewById(R.id.lamp_img);
             lamp_img.setVisibility(View.VISIBLE);
             add_device_button.setVisibility(View.VISIBLE);
@@ -65,9 +71,9 @@ public class Device_Fragment extends Fragment  {
         return view;
     }
 
-    private void update_listview(View view){
+    private void update_listview(View view) {
         FragmentActivity activity = getActivity();
-        if (activity == null ) {
+        if (activity == null) {
             return;
         }
 
@@ -76,11 +82,34 @@ public class Device_Fragment extends Fragment  {
         lView.setAdapter(adapter);
         lView.setOnItemClickListener((arg0, arg1, arg2, arg3) -> {
             Object obj = lView.getItemAtPosition(arg2);
-            Bulb b = (Bulb)obj;
+            Bulb b = (Bulb) obj;
 
             final Bundle bundle = new Bundle();
             bundle.putBinder("bulb_v", new BulbObjectWrapperForBinder(b));
             startActivity(new Intent(getContext(), Device.class).putExtras(bundle));
+        });
+        lView.setOnItemLongClickListener((arg0, arg1, pos, id) -> {
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Delete Device")
+                    .setMessage("Do you really want to delete this device?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                        Bulb temp = (Bulb) lView.getItemAtPosition(pos);
+                        ProgressDialog mDialog = new ProgressDialog(getContext());
+                        mDialog.setMessage("Loading...");
+                        mDialog.setCancelable(false);
+                        mDialog.show();
+                        Db db = new Db(getContext());
+                        db.deleteBulb(temp.getDevice_id());
+                        db.deleteBulbFromRoom(temp.getDevice_id());
+                        db.close();
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        mDialog.dismiss();
+                        Objects.requireNonNull(getContext()).startActivity(intent);
+                    })
+                    .setNegativeButton(android.R.string.no, null).show();
+            return true;
         });
     }
 
@@ -93,8 +122,9 @@ public class Device_Fragment extends Fragment  {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.extra_menu, menu);
     }
 
@@ -112,9 +142,11 @@ public class Device_Fragment extends Fragment  {
         }
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+        }
 
         @Override
-        protected void onProgressUpdate(Void... values) {}
+        protected void onProgressUpdate(Void... values) {
+        }
     }
 }

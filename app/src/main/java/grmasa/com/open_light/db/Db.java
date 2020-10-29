@@ -144,7 +144,9 @@ public class Db extends SQLiteOpenHelper {
         res.moveToFirst();
         Bulb b_temp = null;
         while (!res.isAfterLast()) {
-            b_temp = new Bulb(res.getString(res.getColumnIndex(BULBS_COLUMN_IP)), res.getString(res.getColumnIndex(BULBS_COLUMN_NAME)), res.getString(res.getColumnIndex(BULBS_COLUMN_DEVICE_ID)), res.getString(res.getColumnIndex(BULBS_COLUMN_PORT)), res.getString(res.getColumnIndex(BULBS_COLUMN_FW)), res.getString(res.getColumnIndex(BULBS_COLUMN_SUPPORT)));
+            if(device_id.equals(res.getString(res.getColumnIndex(BULBS_COLUMN_DEVICE_ID)))) {
+                b_temp = new Bulb(res.getString(res.getColumnIndex(BULBS_COLUMN_IP)), res.getString(res.getColumnIndex(BULBS_COLUMN_NAME)), res.getString(res.getColumnIndex(BULBS_COLUMN_DEVICE_ID)), res.getString(res.getColumnIndex(BULBS_COLUMN_PORT)), res.getString(res.getColumnIndex(BULBS_COLUMN_FW)), res.getString(res.getColumnIndex(BULBS_COLUMN_SUPPORT)));
+            }
             res.moveToNext();
         }
         res.close();
