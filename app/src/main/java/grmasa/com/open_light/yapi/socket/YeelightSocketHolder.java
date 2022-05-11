@@ -1,7 +1,9 @@
 package grmasa.com.open_light.yapi.socket;
 
 import android.util.Log;
+
 import grmasa.com.open_light.yapi.exception.YeelightSocketException;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
@@ -36,7 +38,8 @@ public class YeelightSocketHolder {
 
     /**
      * Constructor for socket holder
-     * @param ip Socket holder IP
+     *
+     * @param ip   Socket holder IP
      * @param port Socket holder port
      * @throws YeelightSocketException when socket error occurs
      */
@@ -48,6 +51,7 @@ public class YeelightSocketHolder {
 
     /**
      * Create socket and associated streams (reader + writer)
+     *
      * @throws YeelightSocketException when socket error occurs
      */
     private void initSocketAndStreams() throws YeelightSocketException {
@@ -65,32 +69,37 @@ public class YeelightSocketHolder {
 
     /**
      * Send datas on the socket
+     *
      * @param datas Datas to send
      * @throws YeelightSocketException when socket error occurs
      */
     public void send(String datas) throws YeelightSocketException {
         try {
-            Log.v("ff1", "{"+datas+"} sent to {"+this.ip+"}:{"+this.port+"}");
-            if (datas == null){
+            Log.v("ff1", "{" + datas + "} sent to {" + this.ip + "}:{" + this.port + "}");
+            if (datas == null) {
                 throw new YeelightSocketException(new Throwable());
             }
             this.socketWriter.write(datas);
             this.socketWriter.flush();
         } catch (Exception e) {
+            if (e.toString().contains("Broken pipe")) {
+                initSocketAndStreams();
+            }
             throw new YeelightSocketException(e);
         }
     }
 
     /**
      * Read line on the socket (terminated with \r, \n or \r\n)
+     *
      * @return The line read
      * @throws YeelightSocketException when socket error occurs
      */
     public String readLine() throws YeelightSocketException {
         try {
             String datas = this.socketReader.readLine();
-            Log.v("ff", "{"+datas+"} sent to {"+this.ip+"}:{"+this.port+"}");
-            if (datas == null){
+            Log.v("ff", "{" + datas + "} sent to {" + this.ip + "}:{" + this.port + "}");
+            if (datas == null) {
                 throw new YeelightSocketException(new Throwable());
             }
             return datas;

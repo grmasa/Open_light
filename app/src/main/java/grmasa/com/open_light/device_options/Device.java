@@ -74,10 +74,6 @@ public class Device extends AppCompatActivity {
 
         Button deleteBtn = findViewById(R.id.delete_btn);
         deleteBtn.setOnClickListener(v -> {
-            ProgressDialog mDialog = new ProgressDialog(context);
-            mDialog.setMessage("Loading...");
-            mDialog.setCancelable(false);
-            mDialog.show();
             Db db = new Db(context);
             db.deleteBulb(bulb.getDevice_id());
             db.deleteBulbFromRoom(bulb.getDevice_id());

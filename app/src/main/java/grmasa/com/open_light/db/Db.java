@@ -93,7 +93,7 @@ public class Db extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("select " + bulbsInRoom_COLUMN_BULBID + " from " + bulbsInRoom_TABLE_NAME + " where " + bulbsInRoom_COLUMN_ROOMNAME + " = '" + name + "';", null);
         res.moveToFirst();
         while (!res.isAfterLast()) {
-            Bulb b_temp = getBulb(res.getString(res.getColumnIndex(bulbsInRoom_COLUMN_BULBID)));
+            Bulb b_temp = getBulb(res.getString(res.getColumnIndex(bulbsInRoom_COLUMN_BULBID)<0?0:res.getColumnIndex(bulbsInRoom_COLUMN_BULBID)));
             array_list.add(b_temp);
             res.moveToNext();
         }
@@ -144,7 +144,11 @@ public class Db extends SQLiteOpenHelper {
         res.moveToFirst();
         Bulb b_temp = null;
         while (!res.isAfterLast()) {
-            if(device_id.equals(res.getString(res.getColumnIndex(BULBS_COLUMN_DEVICE_ID)))) {
+            String tempDevID = res.getString(res.getColumnIndex(BULBS_COLUMN_DEVICE_ID));
+            if (tempDevID.contains(" ")){
+                tempDevID = tempDevID.replaceAll("\\s+","");
+            }
+            if(device_id.equals(tempDevID)) {
                 b_temp = new Bulb(res.getString(res.getColumnIndex(BULBS_COLUMN_IP)), res.getString(res.getColumnIndex(BULBS_COLUMN_NAME)), res.getString(res.getColumnIndex(BULBS_COLUMN_DEVICE_ID)), res.getString(res.getColumnIndex(BULBS_COLUMN_PORT)), res.getString(res.getColumnIndex(BULBS_COLUMN_FW)), res.getString(res.getColumnIndex(BULBS_COLUMN_SUPPORT)));
             }
             res.moveToNext();
