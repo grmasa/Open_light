@@ -10,7 +10,7 @@ import grmasa.com.open_light.fragments.Room_Fragment;
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private int mNumOfTabs;
 
-    PagerAdapter(FragmentManager fm, int NumOfTabs) {
+    public PagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
     }

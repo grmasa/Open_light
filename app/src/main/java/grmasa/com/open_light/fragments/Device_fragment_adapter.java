@@ -89,7 +89,6 @@ public class Device_fragment_adapter extends BaseAdapter implements ListAdapter 
             Db db = new Db(context);
             int rows = db.updateBulbIP(list.get(position).getDevice_id(), bulb_ip_edit.getText().toString());
             db.close();
-            System.out.println("New ip:" + bulb_ip_edit.getText().toString() + " id:" + list.get(position).getDevice_id());
             if (rows > 0) {
                 list.get(position).setIP(bulb_ip_edit.getText().toString());
                 bulb_ip.setText(list.get(position).getIp());

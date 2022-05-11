@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="grmasa.com.open_light">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -13,27 +12,29 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:allowBackup="true">
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme"
-            android:label="@string/app_name">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:label="@string/app_name" android:name=".MainActivity" />
-        <activity android:label="@string/app_name" android:name=".device_setup.Setup_step1" />
-        <activity android:label="@string/app_name" android:name=".device_setup.Setup_step2" />
-        <activity android:label="@string/app_name" android:name=".device_setup.Setup_step3" />
-        <activity android:label="@string/app_name" android:name=".device_options.Device" />
-        <activity android:label="@string/app_name" android:name=".device_options.Device_error" />
-        <activity android:label="@string/app_name" android:name=".room_options.setup.Room_Setup_Step1" />
-        <activity android:label="@string/app_name" android:name=".room_options.setup.Room_Setup_Step2" />
-        <activity android:label="@string/app_name" android:name=".room_options.Device" />
-        <activity android:label="@string/app_name" android:name=".room_options.Device_error" />
-        <activity android:label="@string/app_name" android:name=".room_options.edit.Room_edit" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".device_setup.Setup_step1" />
+        <activity android:name=".device_setup.Setup_step2" />
+        <activity android:name=".device_setup.Setup_step3" />
+        <activity android:name=".device_options.Device" />
+        <activity android:name=".device_options.Device_error" />
+        <activity android:name=".room_options.setup.Room_Setup_Step1" />
+        <activity android:name=".room_options.setup.Room_Setup_Step2" />
+        <activity android:name=".room_options.Device" />
+        <activity android:name=".room_options.Device_error" />
+        <activity android:name=".room_options.edit.Room_edit" />
+        <activity android:label="@string/help" android:name=".help.Info" />
     </application>
 
 </manifest>
