@@ -49,4 +49,17 @@
     <string name="device_error_debug">1. Check if your device is powered\n 2. Check if Wifi is available \n 3. If the device changed it\'s IP address, click the refresh button \n 4. Remove your device from this application and reconnect it</string>
 
     <string name="edit_bulb_ip">Edit Bulb IP</string>
+
+    <string name="help">Help</string>
+
+    <string name="question1">Why I can\'t find my bulb during setup?</string>
+    <string name="answer1">1. Check if your device is powered on\n2. Check if Wifi is available\n3. Check if developer options are enabled for your bulb.</string>
+    <string name="question2">I installed a bulb and it worked but later the device\'s state is offline…</string>
+    <string name="answer2">Probably your bulb changed it\'s IP address, just click the refresh button and it will be updated.</string>
+    <string name="question3">What is the difference between Device and Room tabs?</string>
+    <string name="answer3">On Device tab you can control each bulb separately and on Room you can mass control your bulbs.</string>
+    <string name="question4">Can i update my bulb\'s firmware from this application?</string>
+    <string name="answer4">No, this is not possible. You will have to use the official APP.</string>
+    <string name="question5">How can I report bugs or request features?</string>
+    <string name="answer5">You can use the Github issue tracker.</string>
 </resources>

@@ -4,5 +4,11 @@
         android:id="@+id/action_add"
         android:icon="@drawable/baseline_add_white_18dp"
         android:title=""
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_info"
+        android:icon="@drawable/unknown_white"
+        android:title=""
+        app:showAsAction="ifRoom" />
 </menu>

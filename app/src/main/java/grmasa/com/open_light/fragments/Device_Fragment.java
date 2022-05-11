@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import grmasa.com.open_light.BulbObjectWrapperForBinder;
+import grmasa.com.open_light.help.Info;
 import grmasa.com.open_light.MainActivity;
 import grmasa.com.open_light.R;
 import grmasa.com.open_light.db.Bulb;
@@ -117,6 +118,10 @@ public class Device_Fragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_add) {
             Intent myIntent = new Intent(getActivity(), Setup_step1.class);
+            startActivity(myIntent);
+            return true;
+        } else if (item.getItemId() == R.id.action_info) {
+            Intent myIntent = new Intent(getActivity(), Info.class);
             startActivity(myIntent);
             return true;
         }
