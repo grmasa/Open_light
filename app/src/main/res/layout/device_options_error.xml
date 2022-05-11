@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#fff"
+    android:background="@color/colorWhiteback"
     android:orientation="vertical">
     <TextView
         android:textSize="21sp"
-        android:textColor="@android:color/tab_indicator_text"
         android:textStyle="bold"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -16,7 +15,6 @@
         android:layout_marginEnd="8.0dip" />
     <TextView
         android:textSize="19.0sp"
-        android:textColor="@android:color/tab_indicator_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="22.0dip"
